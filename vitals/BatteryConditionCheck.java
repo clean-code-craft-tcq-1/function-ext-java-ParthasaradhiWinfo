@@ -25,8 +25,7 @@ public class BatteryConditionCheck {
 	};
 	static Function<Float, Function<Float, Boolean>> socCheck = (soc) -> {
 		if (soc < 20 || soc > 80) {
-			printMessage(Constants.BREACH, Constants.SOC,
-					soc > 80 ? Constants.HIGH : Constants.LOW);
+			printMessage(Constants.BREACH, Constants.SOC, getHIGHorLowSoc(soc));
 			return null;
 		}
 		checkForWarning(soc, 20, 80, Constants.SOC, 5);
@@ -45,6 +44,10 @@ public class BatteryConditionCheck {
 
 	static String getHIGHorLowTemp(float temperature){
 		return temperature > 45 ? Constants.HIGH : Constants.LOW;
+	}
+
+	static String getHIGHorLowSoc(float soc){
+		return soc > 80 ? Constants.HIGH : Constants.LOW;
 	}
 
 	static void checkForWarning(float value, float min, float max, String type, float deltaPercentage) {
