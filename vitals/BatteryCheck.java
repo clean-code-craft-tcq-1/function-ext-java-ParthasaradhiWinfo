@@ -5,15 +5,6 @@ import java.util.function.Function;
 
 public class BatteryConditionCheck {
 
-   
-	public static final String LOW = "LOW";
-	public static final String HIGH = "HIGH";
-	public static final String WARNING = "WARNING";
-	public static final String BREACH = "Breach";
-	public static final String SOC = "state of change";
-	public static final String CHARGE_RATE = "Charge Rate";
-	public static final String TEMPERATURE = "Temperature";
-
 	static boolean batteryIsOk(float temperature, float soc, float chargeRate) {
 		try {
 			Function<Float, Function<Float, Boolean>> socCheckMethod = temperatureCheck(temperature);
@@ -26,16 +17,16 @@ public class BatteryConditionCheck {
 
 	static Function<Float, Boolean> chargeRateCheck = (chargeRate) -> {
 		if (chargeRate > 0.8) {
-			printMessage(BREACH, CHARGE_RATE, HIGH);
+			printMessage(Constants.BREACH, Constants.CHARGE_RATE, Constants.HIGH);
 			return false;
 		}
-		checkForWarning(chargeRate, 0, 0.8f, CHARGE_RATE, 5);
+		checkForWarning(chargeRate, 0, 0.8f, Constants.CHARGE_RATE, 5);
 		return true;
 	};
 	static Function<Float, Function<Float, Boolean>> socCheck = (soc) -> {
 		if (soc < 20 || soc > 80) {
-			printMessage(BREACH, SOC,
-					soc > 80 ? HIGH : LOW);
+			printMessage(Constants.BREACH, SOC,
+					soc > 80 ? Constants.HIGH : Constants.LOW);
 			return null;
 		}
 		checkForWarning(soc, 20, 80, SOC, 5);
@@ -44,20 +35,20 @@ public class BatteryConditionCheck {
 
 	static Function<Float, Function<Float, Boolean>> temperatureCheck(float temperature) {
 		if (temperature < 0 || temperature > 45) {
-			printMessage(BREACH, TEMPERATURE,
-					temperature > 45 ? HIGH : LOW);
+			printMessage(Constants.BREACH, Constants.TEMPERATURE,
+					temperature > 45 ? Constants.HIGH : LOW);
 			return null;
 		}
-		checkForWarning(temperature, 0, 45, TEMPERATURE, 5);
+		checkForWarning(temperature, 0, 45, Constants.TEMPERATURE, 5);
 		return socCheck;
 	}
 
 	static void checkForWarning(float value, float min, float max, String type, float deltaPercentage) {
 		float delta = (deltaPercentage / max) * 100;
-		if (type != CHARGE_RATE && value <= (min + delta)) {
-			printMessage(WARNING, type, LOW);
+		if (type != Constants.CHARGE_RATE && value <= (min + delta)) {
+			printMessage(Constants.WARNING, type, Constants.LOW);
 		} else if (value >= (max - delta)) {
-			printMessage(WARNING, type, HIGH);
+			printMessage(Constants.WARNING, type, Constants.HIGH);
 		}
 	}
 
