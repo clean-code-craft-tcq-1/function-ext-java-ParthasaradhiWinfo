@@ -28,7 +28,8 @@ public class BatteryConditionCheck {
 			printMessage(Constants.BREACH, Constants.SOC, getHIGHorLowSoc(soc));
 			return null;
 		}
-		checkForWarning(soc, 20, 80, Constants.SOC, 5);
+		checkForMinWarning(soc, 20, 80, Constants.SOC, 5);
+		checkForMaxWarning(soc, 20, 80, Constants.SOC, 5);
 		return chargeRateCheck;
 	};
 
@@ -50,11 +51,16 @@ public class BatteryConditionCheck {
 		return soc > 80 ? Constants.HIGH : Constants.LOW;
 	}
 
-	static void checkForWarning(float value, float min, float max, String type, float deltaPercentage) {
+	static void checkForMinWarning(float value, float min, float max, String type, float deltaPercentage) {
 		float delta = (deltaPercentage / max) * 100;
 		if (type != Constants.CHARGE_RATE && value <= (min + delta)) {
 			printMessage(Constants.WARNING, type, Constants.LOW);
-		} else if (value >= (max - delta)) {
+		} 
+	}
+
+	static void checkForMaxWarning(float value, float min, float max, String type, float deltaPercentage) {
+		float delta = (deltaPercentage / max) * 100;
+		 if (value >= (max - delta)) {
 			printMessage(Constants.WARNING, type, Constants.HIGH);
 		}
 	}
