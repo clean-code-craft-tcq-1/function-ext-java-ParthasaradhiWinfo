@@ -41,7 +41,8 @@ public class BatteryConditionCheck {
 			printMessage(Constants.BREACH, Constants.TEMPERATURE, getHIGHorLowTemp(temperature));
 			return null;
 		}
-		checkForWarning(temperature, 0, 45, Constants.TEMPERATURE, 5);
+		checkForMinWarning(temperature, 0, 45, Constants.TEMPERATURE, 5);
+		checkForMaxWarning(temperature, 0, 45, Constants.TEMPERATURE, 5);
 		return socCheck;
 	}
 
