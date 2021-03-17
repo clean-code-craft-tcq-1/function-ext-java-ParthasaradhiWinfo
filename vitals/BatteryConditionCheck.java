@@ -25,18 +25,18 @@ public class BatteryConditionCheck {
 	};
 	static Function<Float, Function<Float, Boolean>> socCheck = (soc) -> {
 		if (soc < 20 || soc > 80) {
-			printMessage(Constants.BREACH, SOC,
+			printMessage(Constants.BREACH, Constants.SOC,
 					soc > 80 ? Constants.HIGH : Constants.LOW);
 			return null;
 		}
-		checkForWarning(soc, 20, 80, SOC, 5);
+		checkForWarning(soc, 20, 80, Constants.SOC, 5);
 		return chargeRateCheck;
 	};
 
 	static Function<Float, Function<Float, Boolean>> temperatureCheck(float temperature) {
 		if (temperature < 0 || temperature > 45) {
 			printMessage(Constants.BREACH, Constants.TEMPERATURE,
-					temperature > 45 ? Constants.HIGH : LOW);
+					temperature > 45 ? Constants.HIGH : Constants.LOW);
 			return null;
 		}
 		checkForWarning(temperature, 0, 45, Constants.TEMPERATURE, 5);
