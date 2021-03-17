@@ -20,7 +20,9 @@ public class BatteryConditionCheck {
 			printMessage(Constants.BREACH, Constants.CHARGE_RATE, Constants.HIGH);
 			return false;
 		}
-		checkForWarning(chargeRate, 0, 0.8f, Constants.CHARGE_RATE, 5);
+		checkForMinWarning(chargeRate, 0, 0.8f, Constants.CHARGE_RATE, 5);
+		checkForMaxWarning(chargeRate, 0, 0.8f, Constants.CHARGE_RATE, 5);
+	
 		return true;
 	};
 	static Function<Float, Function<Float, Boolean>> socCheck = (soc) -> {
