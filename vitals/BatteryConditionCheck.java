@@ -35,12 +35,16 @@ public class BatteryConditionCheck {
 
 	static Function<Float, Function<Float, Boolean>> temperatureCheck(float temperature) {
 		if (temperature < 0 || temperature > 45) {
-			printMessage(Constants.BREACH, Constants.TEMPERATURE,
-					temperature > 45 ? Constants.HIGH : Constants.LOW);
+			
+			printMessage(Constants.BREACH, Constants.TEMPERATURE, getHIGHorLowTemp(temperature));
 			return null;
 		}
 		checkForWarning(temperature, 0, 45, Constants.TEMPERATURE, 5);
 		return socCheck;
+	}
+
+	static String getHIGHorLowTemp(float temperature){
+		return temperature > 45 ? Constants.HIGH : Constants.LOW;
 	}
 
 	static void checkForWarning(float value, float min, float max, String type, float deltaPercentage) {
